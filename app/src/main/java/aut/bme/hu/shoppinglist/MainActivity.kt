@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_shopping_list.*
 import kotlinx.coroutines.*
 
-class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListener, CoroutineScope by MainScope(), NewShoppingItemDialogFragment.NewShoppingItemDialogListener {
+class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListener, ShoppingAdapter.ShoppingItemRemovingDialogListener, CoroutineScope by MainScope(), NewShoppingItemDialogFragment.NewShoppingItemDialogListener {
 
     private lateinit var database: ShoppingListDatabase
     private lateinit var adapter: ShoppingAdapter
@@ -41,7 +41,7 @@ class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListen
     }
 
     private fun initRecyclerView() {
-        adapter = ShoppingAdapter(this)
+        adapter = ShoppingAdapter(this, this)
         rvMain.layoutManager = LinearLayoutManager(this)
         rvMain.adapter = adapter
         loadItemsInBackground()
@@ -63,5 +63,16 @@ class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListen
             database.shoppingItemDao().insert(item)
         }
         adapter.addItem(item)
+    }
+
+    override fun onShoppingItemRemoved(item: ShoppingItem) {
+        removeItemInBackground(item)
+    }
+
+    private fun removeItemInBackground(item: ShoppingItem) = launch {
+        withContext(Dispatchers.IO) {
+            database.shoppingItemDao().deleteItem(item)
+        }
+        adapter.removeItem(item)
     }
 }

@@ -11,12 +11,15 @@ import aut.bme.hu.shoppinglist.data.ShoppingItemCategory
 import aut.bme.hu.shoppinglist.data.ShoppingItemCategory.*
 import kotlinx.android.synthetic.main.item_shopping_list.view.*
 
-class ShoppingAdapter(private val listener: ShoppingItemClickListener): RecyclerView.Adapter<ShoppingAdapter.ShoppingViewHolder>() {
+class ShoppingAdapter(private val listener: ShoppingItemClickListener, private val removeListener: ShoppingItemRemovingDialogListener): RecyclerView.Adapter<ShoppingAdapter.ShoppingViewHolder>() {
 
     private val items = mutableListOf<ShoppingItem>()
 
     interface ShoppingItemClickListener {
         fun onItemChanged(item: ShoppingItem)
+    }
+    interface ShoppingItemRemovingDialogListener {
+        fun onShoppingItemRemoved(item: ShoppingItem)
     }
 
     fun update(shoppingItems: List<ShoppingItem>) {
@@ -52,7 +55,10 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
                 shoppingItem.isBought = isChecked
                 listener.onItemChanged(item)
             }
-            itemView.ibRemove.setOnClickListener { removeItem(shoppingItem) }
+            itemView.ibRemove.setOnClickListener {
+                removeItem(shoppingItem)
+                removeListener.onShoppingItemRemoved((shoppingItem))
+            }
         }
 
         @DrawableRes()
