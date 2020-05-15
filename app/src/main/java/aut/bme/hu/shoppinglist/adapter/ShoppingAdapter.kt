@@ -19,6 +19,17 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
         fun onItemChanged(item: ShoppingItem)
     }
 
+    fun update(shoppingItems: List<ShoppingItem>) {
+        items.clear()
+        items.addAll(shoppingItems)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(shoppingItem: ShoppingItem) {
+        items.add(shoppingItem)
+        notifyItemInserted(items.size - 1)
+    }
+
     inner class ShoppingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private lateinit var shoppingItem: ShoppingItem
 
