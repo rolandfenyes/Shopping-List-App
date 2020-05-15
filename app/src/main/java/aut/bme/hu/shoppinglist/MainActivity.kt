@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import aut.bme.hu.shoppinglist.adapter.ShoppingAdapter
 import aut.bme.hu.shoppinglist.data.ShoppingItem
 import aut.bme.hu.shoppinglist.data.ShoppingListDatabase
+import aut.bme.hu.shoppinglist.fragments.NewShoppingItemDialogFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 
-class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListener, CoroutineScope by MainScope() {
+class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListener, CoroutineScope by MainScope(), NewShoppingItemDialogFragment.NewShoppingItemDialogListener {
 
     private lateinit var database: ShoppingListDatabase
     private lateinit var adapter: ShoppingAdapter
@@ -22,7 +23,7 @@ class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListen
         database = ShoppingListDatabase.getDatabase(applicationContext)
 
         fab.setOnClickListener {
-            // TODO
+            NewShoppingItemDialogFragment().show(supportFragmentManager, NewShoppingItemDialogFragment.TAG)
         }
 
         initRecyclerView()
@@ -50,5 +51,16 @@ class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListen
             database.shoppingItemDao().getAll()
         }
         adapter.update(items)
+    }
+
+    override fun onShoppingItemCreated(item: ShoppingItem) {
+        addItemInBackgound(item)
+    }
+
+    private fun addItemInBackgound(item: ShoppingItem) = launch {
+        withContext(Dispatchers.IO) {
+            database.shoppingItemDao().insert(item)
+        }
+        adapter.addItem(item)
     }
 }

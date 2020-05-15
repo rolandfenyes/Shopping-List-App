@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import aut.bme.hu.shoppinglist.R
 import aut.bme.hu.shoppinglist.data.ShoppingItem
+import aut.bme.hu.shoppinglist.data.ShoppingItemCategory
 import kotlinx.android.synthetic.main.dialog_new_shopping_item.view.*
 import kotlinx.coroutines.NonCancellable.cancel
 
@@ -34,14 +35,31 @@ class NewShoppingItemDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         contentView = getContentView()
 
+
         return AlertDialog.Builder(requireActivity())
             .setTitle(R.string.new_shopping_item)
             .setView(contentView)
             .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                // TODO
+                if(isValid()) {
+                    listener.onShoppingItemCreated(getShoppingItem())
+                }
             }
             .setNegativeButton(R.string.cancel, null)
             .create()
+    }
+
+    private fun isValid(): Boolean {
+        return contentView.etName.text.isNotEmpty()
+    }
+
+    private fun getShoppingItem(): ShoppingItem {
+        return ShoppingItem(
+            name = contentView.etName.text.toString(),
+            description = contentView.etDescription.text.toString(),
+            estimatedPrice = contentView.etEstimatedPrice.text.toString().toIntOrNull() ?: 0,
+            category = ShoppingItemCategory.getByOrdinal(contentView.spCategory.selectedItemPosition) ?: ShoppingItemCategory.BOOK,
+            isBought = contentView.cbAlreadyPurchased.isChecked
+        )
     }
 
     private fun getContentView(): View {
