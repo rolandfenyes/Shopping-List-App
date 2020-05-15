@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import aut.bme.hu.shoppinglist.R
 import aut.bme.hu.shoppinglist.data.ShoppingItem
+import kotlinx.android.synthetic.main.dialog_new_shopping_item.view.*
 import kotlinx.coroutines.NonCancellable.cancel
 
 class NewShoppingItemDialogFragment : DialogFragment() {

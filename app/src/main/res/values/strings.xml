@@ -9,4 +9,9 @@
     <string name="estimated_price">Estimated price</string>
     <string name="already_purchased">Already purchased</string>
     <string name="name">Name</string>
+    <string-array name="category_items">
+        <item>Food</item>
+        <item>Electronic</item>
+        <item>Book</item>
+    </string-array>
 </resources>
