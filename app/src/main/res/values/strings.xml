@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">ShoppingList</string>
     <string name="bought">Bought</string>
+    <string name="new_shopping_item">New shopping item</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="estimated_price">Estimated price</string>
+    <string name="already_purchased">Already purchased</string>
+    <string name="name">Name</string>
 </resources>
