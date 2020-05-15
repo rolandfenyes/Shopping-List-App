@@ -71,7 +71,7 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
     }
 
     override fun onBindViewHolder(holder: ShoppingViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(items[position])
     }
 
 }
