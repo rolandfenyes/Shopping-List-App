@@ -8,7 +8,7 @@ import androidx.room.TypeConverter
 enum class ShoppingItemCategory {
     FOOD,
     ELECTRONIC,
-    BOO;
+    BOOK;
 
     companion object {
         @TypeConverter @JvmStatic

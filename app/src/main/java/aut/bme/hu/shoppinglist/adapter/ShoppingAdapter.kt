@@ -3,16 +3,47 @@ package aut.bme.hu.shoppinglist.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import aut.bme.hu.shoppinglist.R
 import aut.bme.hu.shoppinglist.data.ShoppingItem
+import aut.bme.hu.shoppinglist.data.ShoppingItemCategory
+import aut.bme.hu.shoppinglist.data.ShoppingItemCategory.*
+import kotlinx.android.synthetic.main.item_shopping_list.view.*
 
-class ShoppingAdapter: RecyclerView.Adapter<ShoppingAdapter.ShoppingViewHolder>() {
+class ShoppingAdapter(private val listener: ShoppingItemClickListener): RecyclerView.Adapter<ShoppingAdapter.ShoppingViewHolder>() {
 
     private val items = mutableListOf<ShoppingItem>()
 
-    inner class ShoppingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    interface ShoppingItemClickListener {
+        fun onItemChanged(item: ShoppingItem)
+    }
 
+    inner class ShoppingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private lateinit var shoppingItem: ShoppingItem
+
+        fun bind(item: ShoppingItem) {
+            shoppingItem = item
+            itemView.tvName.text = shoppingItem.name
+            itemView.tvDescription.text = shoppingItem.description
+            itemView.tvCategory.text = shoppingItem.category.name
+            itemView.tvPrice.text = "${shoppingItem.estimatedPrice} Ft"
+            itemView.cbIsBought.isChecked = shoppingItem.isBought
+
+            itemView.cbIsBought.setOnCheckedChangeListener { buttonView, isChecked ->
+                shoppingItem.isBought = isChecked
+                listener.onItemChanged(item)
+            }
+        }
+
+        @DrawableRes()
+        private fun getImageResource(category: ShoppingItemCategory): Int {
+            return when(category) {
+                FOOD -> R.drawable.groceries
+                ELECTRONIC -> R.drawable.lightning
+                BOOK -> R.drawable.open_book
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingViewHolder {
