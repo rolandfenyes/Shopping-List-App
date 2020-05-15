@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface ShoppingItemDao {
-    @Query(value = "SELECT * FROM shoppingitem")
+    @Query("SELECT * FROM shoppingitem")
     fun getAll(): List<ShoppingItem>
 
     @Insert
