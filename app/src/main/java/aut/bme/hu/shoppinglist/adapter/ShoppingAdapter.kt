@@ -35,6 +35,8 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
 
         fun bind(item: ShoppingItem) {
             shoppingItem = item
+
+            itemView.ivIcon.setImageResource(getImageResource(shoppingItem.category))
             itemView.tvName.text = shoppingItem.name
             itemView.tvDescription.text = shoppingItem.description
             itemView.tvCategory.text = shoppingItem.category.name
@@ -65,7 +67,7 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
     }
 
     override fun getItemCount(): Int {
-        return  items.size
+        return items.size
     }
 
     override fun onBindViewHolder(holder: ShoppingViewHolder, position: Int) {
