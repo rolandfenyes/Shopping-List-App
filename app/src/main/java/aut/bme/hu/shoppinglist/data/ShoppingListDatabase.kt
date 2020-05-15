@@ -1,0 +1,13 @@
+package aut.bme.hu.shoppinglist.data
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+
+@Database(entities = [ShoppingItem::class], version = 1)
+@TypeConverters(value = [ShoppingItemCategory::class])
+abstract class ShoppingListDatabase: RoomDatabase() {
+
+    abstract fun shoppingItemDao(): ShoppingItemDao
+
+}
