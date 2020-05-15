@@ -14,5 +14,5 @@ interface ShoppingItemDao {
     suspend fun update(shoppingItem: ShoppingItem)
 
     @Delete
-    suspend fun delete(shoppingItem: ShoppingItem)
+    suspend fun deleteItem(shoppingItem: ShoppingItem)
 }
