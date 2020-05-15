@@ -1,9 +1,16 @@
 package aut.bme.hu.shoppinglist.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "shoppingitem")
 data class ShoppingItem(
-    var name: String,
-    var category: String,
-    var description: String,
-    var estimatedPrice: Int,
-    var isBought: Boolean
+    @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Long = 0,
+
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "category") var category: String,
+    @ColumnInfo(name = "description") var description: String = "",
+    @ColumnInfo(name = "estimated_price") var estimatedPrice: Int = 0,
+    @ColumnInfo(name = "is_bought") var isBought: Boolean = false
 )
