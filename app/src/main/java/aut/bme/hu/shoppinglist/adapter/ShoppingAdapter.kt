@@ -30,6 +30,11 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
         notifyItemInserted(items.size - 1)
     }
 
+    fun removeItem(shoppingItem: ShoppingItem) {
+        items.remove(shoppingItem)
+        notifyDataSetChanged()
+    }
+
     inner class ShoppingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private lateinit var shoppingItem: ShoppingItem
 
@@ -47,6 +52,7 @@ class ShoppingAdapter(private val listener: ShoppingItemClickListener): Recycler
                 shoppingItem.isBought = isChecked
                 listener.onItemChanged(item)
             }
+            itemView.ibRemove.setOnClickListener { removeItem(shoppingItem) }
         }
 
         @DrawableRes()

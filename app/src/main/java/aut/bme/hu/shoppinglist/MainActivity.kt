@@ -8,6 +8,7 @@ import aut.bme.hu.shoppinglist.data.ShoppingItem
 import aut.bme.hu.shoppinglist.data.ShoppingListDatabase
 import aut.bme.hu.shoppinglist.fragments.NewShoppingItemDialogFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_shopping_list.*
 import kotlinx.coroutines.*
 
 class MainActivity: AppCompatActivity(), ShoppingAdapter.ShoppingItemClickListener, CoroutineScope by MainScope(), NewShoppingItemDialogFragment.NewShoppingItemDialogListener {
