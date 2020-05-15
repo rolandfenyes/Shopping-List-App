@@ -3,11 +3,31 @@ package aut.bme.hu.shoppinglist.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 
 enum class ShoppingItemCategory {
     FOOD,
     ELECTRONIC,
-    BOOK
+    BOO;
+
+    companion object {
+        @TypeConverter @JvmStatic
+        fun getByOrdinal(ordinal: Int): ShoppingItemCategory? {
+            var ret: ShoppingItemCategory? = null
+            for (e in values()) {
+                if (e.ordinal == ordinal) {
+                    ret = e
+                    break
+                }
+            }
+            return ret
+        }
+
+        @TypeConverter @JvmStatic
+        fun toInt(category: ShoppingItemCategory): Int {
+            return category.ordinal
+        }
+    }
 }
 
 @Entity(tableName = "shoppingitem")
